@@ -17,7 +17,9 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="counterText" >#36FF33</style>
 
+    <style name="counterOverride">#FF3333</style>
 
 
 </resources>
