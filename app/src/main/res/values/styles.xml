@@ -1,4 +1,8 @@
 <resources>
+    <!-- Define your colors in `res/values/colors.xml` -->
+    <color name="simple_yellow">#ff9770</color>
+    <color name="primary_blue">#03045e</color>
+    <color name="sub_blue">#023e8a</color>
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--
@@ -12,5 +16,8 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+
+
+
 
 </resources>
