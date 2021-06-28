@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ public class TimelineActivity extends AppCompatActivity {
     TweetsAdapter adapter;
     Button btnLogOut;
 
+    private final int REQUEST_CODE = 20;
     public static final String TAG = "TimelineActivity";
 
     @Override
@@ -75,10 +78,29 @@ public class TimelineActivity extends AppCompatActivity {
             // Compose icon has been selected
 //            Toast.makeText(this, "Compose!", Toast.LENGTH_SHORT).show();
             // Navigate to compose activity
+
             Intent i = new Intent(this, ComposeActivity.class);
-            startActivity(i);
+            startActivityForResult(i,REQUEST_CODE);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+            // Get data from the intent (tweet)
+            Tweet tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra("Tweet"));
+
+            // Update RV with tweet
+
+            // Modify data source of tweets
+            tweets.add(0,tweet);
+            // Update the adapter
+            adapter.notifyItemInserted(0);
+            rvTweets.smoothScrollToPosition(0);
+        }
     }
 
     private void populateHomeTimeline() {
