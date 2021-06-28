@@ -2,6 +2,8 @@ package com.codepath.apps.restclienttemplate;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +25,7 @@ public class TimelineActivity extends AppCompatActivity {
     RecyclerView rvTweets;
     List<Tweet> tweets;
     TweetsAdapter adapter;
+    Button btnLogOut;
 
     public static final String TAG = "TimelineActivity";
 
@@ -34,6 +37,7 @@ public class TimelineActivity extends AppCompatActivity {
         client = TwitterApp.getRestClient(this);
 
         rvTweets = findViewById(R.id.rvTweets);
+        btnLogOut = findViewById(R.id.btnLogOut);
 
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this,tweets);
@@ -42,6 +46,14 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.setAdapter(adapter);
 
         populateHomeTimeline();
+
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                client.clearAccessToken();
+                finish();
+            }
+        });
     }
 
     private void populateHomeTimeline() {
