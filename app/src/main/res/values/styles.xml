@@ -16,10 +16,14 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    <style name="counterText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#36FF33</item>
+    </style>
 
-    <style name="counterText" >#36FF33</style>
+    <style name="counterOverride" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#FF3333</item>
+    </style>
 
-    <style name="counterOverride">#FF3333</style>
 
 
 </resources>

@@ -3,6 +3,8 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,7 @@ public class ComposeActivity extends AppCompatActivity {
 public static final int MAX_TWEET_LENGTH = 140;
     EditText etCompose;
     Button btnTweet;
+    private final int REQUEST_CODE = 30;
 
     public static final String TAG = "ComposeActivity";
     TwitterClient client;
@@ -73,5 +76,21 @@ public static final int MAX_TWEET_LENGTH = 140;
                 });
             }
         });
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_compose,menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.i("TAG","onOptionsItemSelected");
+        if(item.getItemId() == R.id.cancel){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

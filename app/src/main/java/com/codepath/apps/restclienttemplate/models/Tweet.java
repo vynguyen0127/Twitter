@@ -19,6 +19,7 @@ public class Tweet {
     public String body;
     public String createdAt;
     public User user;
+    public String mediaURL;
 
 
     private static final int SECOND_MILLIS = 1000;
@@ -35,6 +36,20 @@ public class Tweet {
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        JSONObject obj = jsonObject.getJSONObject("entities");
+
+        if(obj.has("media")){
+            JSONArray media = obj.getJSONArray("media");
+            JSONObject obj2 = media.getJSONObject(0);
+            tweet.mediaURL = obj2.getString("media_url_https");
+            Log.i(TAG, tweet.mediaURL);
+        }
+        else{
+            tweet.mediaURL = "";
+            Log.i(TAG, "does not contain media");
+        }
+
+
 
         return tweet;
     }
