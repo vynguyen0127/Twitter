@@ -43,6 +43,7 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
         Log.i(TAG, "onCreate");
         client = TwitterApp.getRestClient(this);
+        getSupportActionBar().setIcon(R.drawable.ic_launcher_twitter_round);
 
         rvTweets = findViewById(R.id.rvTweets);
         btnLogOut = findViewById(R.id.btnLogOut);
@@ -80,6 +81,8 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+
     }
 
     public void fetchTimelineAsync(int page) {
@@ -128,6 +131,7 @@ public class TimelineActivity extends AppCompatActivity {
             // Navigate to compose activity
 
             Intent i = new Intent(this, ComposeActivity.class);
+            i.putExtra("Reply",false);
             startActivityForResult(i,REQUEST_CODE);
         }
         return super.onOptionsItemSelected(item);

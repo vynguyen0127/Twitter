@@ -1,9 +1,12 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,9 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -68,13 +73,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     // Bind values based on the position of the element
 
     // Define a viewholder
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView ivProfileImage;
         TextView tvBody;
         TextView tvScreenName;
         TextView tvTime;
+        TextView tvName;
         ImageView ivMedia;
+        Button btnReply;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -83,11 +90,17 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvTime = itemView.findViewById(R.id.tvTime);
             ivMedia = itemView.findViewById(R.id.ivMedia);
+            btnReply = itemView.findViewById(R.id.btnReply);
+            tvName = itemView.findViewById(R.id.tvName);
+            itemView.setOnClickListener(this);
+
+
         }
 
-        public void bind(Tweet tweet) {
+        public void bind(final Tweet tweet) {
+            tvName.setText(tweet.user.name);
             tvBody.setText(tweet.body);
-            tvScreenName.setText(tweet.user.screenName);
+            tvScreenName.setText("@" + tweet.user.screenName);
 //            Log.i("TweetsAdapter", tweet.body);
 //            Log.i("TweetsAdapter",tweet.user.profileImageUrl);
             Glide.with(context)
@@ -98,14 +111,41 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             if(!tweet.mediaURL.isEmpty()){
                 Glide.with(context)
                         .load(tweet.mediaURL)
+                        .transform(new RoundedCorners(30))
                         .into(ivMedia);
                 ivMedia.setVisibility(View.VISIBLE);
             }
             else{
                 ivMedia.setVisibility(View.GONE);
             }
+
+            btnReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, ComposeActivity.class);
+                    i.putExtra("Reply",true);
+                    i.putExtra("screen_name",tweet.user.screenName);
+                    i.putExtra("id",tweet.id);
+                    context.startActivity(i);
+
+                }
+            });
         }
 
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
 
+            if(position != RecyclerView.NO_POSITION){
+                Tweet tweet = tweets.get(position);
+
+                Intent i = new Intent(context,TweetDetailActivity.class);
+                i.putExtra("Tweet", Parcels.wrap(tweet));
+                context.startActivity(i);
+                Log.i("TweetsAdapter","item clicked!");
+            }
+        }
     }
+
+
 }
