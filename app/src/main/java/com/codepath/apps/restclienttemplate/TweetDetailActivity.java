@@ -1,11 +1,11 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -32,8 +32,6 @@ public class TweetDetailActivity extends AppCompatActivity {
     Tweet tweet;
     TwitterClient client;
 
-    private boolean favorited = false;
-    private boolean retweeted = false;
     int iconLike;
     int iconRetweet;
 
@@ -56,10 +54,10 @@ public class TweetDetailActivity extends AppCompatActivity {
         tvBody.setText(tweet.body);
         tvName.setText(tweet.user.name);
         tvScreenName.setText("@" + tweet.user.screenName);
-//            Log.i("TweetsAdapter", tweet.body);
-//            Log.i("TweetsAdapter",tweet.user.profileImageUrl);
+
         Glide.with(TweetDetailActivity.this)
                 .load(tweet.user.profileImageUrl)
+                .circleCrop()
                 .into(ivProfileImage);
         tvTime.setText(tweet.getRelativeTimeAgo(tweet.createdAt));
 
@@ -76,7 +74,7 @@ public class TweetDetailActivity extends AppCompatActivity {
         ibFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!favorited){
+                if(!tweet.getFavorited()){
                     client.favoriteTweet(tweet.id, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -89,7 +87,7 @@ public class TweetDetailActivity extends AppCompatActivity {
                         }
                     });
                     iconLike = R.drawable.ic_vector_heart;
-                    favorited = true;
+                    tweet.setFavorited(true);
                 }
                 else{
                     client.unfavoriteTweet(tweet.id, new JsonHttpResponseHandler() {
@@ -104,7 +102,7 @@ public class TweetDetailActivity extends AppCompatActivity {
                         }
                     });
                     iconLike = R.drawable.ic_vector_heart_stroke;
-                    favorited = false;
+                    tweet.setFavorited(false);
                 }
                 ibFavorite.setImageDrawable(
                         ContextCompat.getDrawable(getApplicationContext(), iconLike));
@@ -114,7 +112,7 @@ public class TweetDetailActivity extends AppCompatActivity {
         ibRetweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!retweeted){
+                if(!tweet.getRetweeted()){
                     client.retweetTweet(tweet.id, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -127,7 +125,7 @@ public class TweetDetailActivity extends AppCompatActivity {
                         }
                     });
                     iconRetweet = R.drawable.ic_vector_retweet_stroke;
-                    retweeted = true;
+                    tweet.setRetweeted(true);
                 }
                 else{
                     client.unretweetTweet(tweet.id, new JsonHttpResponseHandler() {
@@ -142,7 +140,7 @@ public class TweetDetailActivity extends AppCompatActivity {
                         }
                     });
                     iconRetweet = R.drawable.ic_vector_retweet;
-                    retweeted = false;
+                    tweet.setRetweeted(false);
                 }
 
                 ibRetweet.setImageDrawable(

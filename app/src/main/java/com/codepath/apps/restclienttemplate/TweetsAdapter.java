@@ -28,6 +28,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
     Context context;
     List<Tweet> tweets;
+    TwitterClient client;
+    public static final String TAG = "TweetsAdapter";
 
     // Pass in the context and list of tweets
     TweetsAdapter(Context context, List<Tweet> tweets){
@@ -83,6 +85,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivMedia;
         Button btnReply;
 
+        int iconLike;
+        int iconRetweet;
+
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
@@ -92,6 +97,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivMedia = itemView.findViewById(R.id.ivMedia);
             btnReply = itemView.findViewById(R.id.btnReply);
             tvName = itemView.findViewById(R.id.tvName);
+
             itemView.setOnClickListener(this);
 
 
@@ -105,6 +111,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 //            Log.i("TweetsAdapter",tweet.user.profileImageUrl);
             Glide.with(context)
                     .load(tweet.user.profileImageUrl)
+                    .circleCrop()
                     .into(ivProfileImage);
             tvTime.setText(tweet.getRelativeTimeAgo(tweet.createdAt));
 
@@ -130,6 +137,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
                 }
             });
+
         }
 
         @Override

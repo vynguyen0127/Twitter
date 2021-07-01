@@ -21,6 +21,8 @@ public class Tweet {
     public User user;
     public String mediaURL;
     public String id;
+    private boolean favorited;
+    private boolean retweeted;
 
 
     private static final int SECOND_MILLIS = 1000;
@@ -30,11 +32,14 @@ public class Tweet {
 
     public static final String TAG = "Tweet";
 
-    public Tweet(){};
+    public Tweet(){
+        retweeted = false;
+        favorited = false;
+    };
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
-        tweet.body = jsonObject.getString("text");
+        tweet.body = jsonObject.getString("full_text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.id = jsonObject.getString("id");
@@ -95,4 +100,19 @@ public class Tweet {
 
         return "";
     }
+    public void setFavorited(boolean status){
+        favorited = status;
+    }
+    public boolean getFavorited(){
+        return favorited;
+    }
+
+    public void setRetweeted(boolean status){
+        retweeted = status;
+    }
+    public boolean getRetweeted(){
+        return retweeted;
+    }
+
+
 }

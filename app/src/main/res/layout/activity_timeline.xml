@@ -32,4 +32,6 @@
         android:layout_marginEnd="13dp"
         android:layout_marginBottom="17dp"
         android:text="Log Out" />
+
+
 </RelativeLayout>

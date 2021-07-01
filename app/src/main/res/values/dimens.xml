@@ -3,5 +3,9 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="profile_img_width">80dp</dimen>
+    <dimen name="profile_img_height">80dp</dimen>
+    <dimen name="btn_width">50dp</dimen>
+    <dimen name="btn_height">30dp</dimen>
 
 </resources>
