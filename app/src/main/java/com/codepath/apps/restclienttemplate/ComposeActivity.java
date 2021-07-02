@@ -61,7 +61,7 @@ public static final int MAX_TWEET_LENGTH = 140;
                 }
 
                 // make API call to Twitter to publish the tweet
-                Toast.makeText(ComposeActivity.this, content, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ComposeActivity.this, content, Toast.LENGTH_SHORT).show();
                 client.publishTweet(content, reply, id, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {

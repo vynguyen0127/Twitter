@@ -79,6 +79,8 @@ public class TweetDetailActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.i(TAG, "tweet favorited");
+                            iconLike = R.drawable.ic_vector_heart;
+                            tweet.setFavorited(true);
                         }
 
                         @Override
@@ -86,14 +88,15 @@ public class TweetDetailActivity extends AppCompatActivity {
                             Log.i(TAG,"favorite error");
                         }
                     });
-                    iconLike = R.drawable.ic_vector_heart;
-                    tweet.setFavorited(true);
+
                 }
                 else{
                     client.unfavoriteTweet(tweet.id, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.i(TAG, "tweet unfavorited");
+                            iconLike = R.drawable.ic_vector_heart_stroke;
+                            tweet.setFavorited(false);
                         }
 
                         @Override
@@ -101,11 +104,10 @@ public class TweetDetailActivity extends AppCompatActivity {
                             Log.i(TAG, "unfavorite error");
                         }
                     });
-                    iconLike = R.drawable.ic_vector_heart_stroke;
-                    tweet.setFavorited(false);
+
                 }
                 ibFavorite.setImageDrawable(
-                        ContextCompat.getDrawable(getApplicationContext(), iconLike));
+                        ContextCompat.getDrawable(TweetDetailActivity.this, iconLike));
             }
         });
 
@@ -117,6 +119,8 @@ public class TweetDetailActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.i(TAG, "tweet retweeted");
+                            iconRetweet = R.drawable.ic_vector_retweet;
+                            tweet.setRetweeted(true);
                         }
 
                         @Override
@@ -124,14 +128,15 @@ public class TweetDetailActivity extends AppCompatActivity {
                             Log.i(TAG, "retweet error");
                         }
                     });
-                    iconRetweet = R.drawable.ic_vector_retweet_stroke;
-                    tweet.setRetweeted(true);
+
                 }
                 else{
                     client.unretweetTweet(tweet.id, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.i(TAG, "tweet unretweeted");
+                            iconRetweet = R.drawable.ic_vector_retweet_stroke;
+                            tweet.setRetweeted(false);
                         }
 
                         @Override
@@ -139,12 +144,11 @@ public class TweetDetailActivity extends AppCompatActivity {
                             Log.i(TAG, "unretweet error");
                         }
                     });
-                    iconRetweet = R.drawable.ic_vector_retweet;
-                    tweet.setRetweeted(false);
+
                 }
 
                 ibRetweet.setImageDrawable(
-                        ContextCompat.getDrawable(getApplicationContext(), iconRetweet));
+                        ContextCompat.getDrawable(TweetDetailActivity.this, iconRetweet));
             }
         });
     }
