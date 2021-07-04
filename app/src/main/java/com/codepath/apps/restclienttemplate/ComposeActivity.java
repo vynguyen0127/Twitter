@@ -68,7 +68,8 @@ public static final int MAX_TWEET_LENGTH = 140;
                         Log.i(TAG, "onSuccess to publish tweet");
                         try {
                             Tweet tweet = Tweet.fromJson(json.jsonObject);
-                            Log.i(TAG, "Published tweet says: " + tweet);
+//                            Log.i(TAG, "Published tweet says: " + tweet.body);
+                            Log.i(TAG,"Json: "+ json.toString()  );
                             Intent i = new Intent();
                             i.putExtra("Tweet", Parcels.wrap(tweet));
                             setResult(RESULT_OK,i );

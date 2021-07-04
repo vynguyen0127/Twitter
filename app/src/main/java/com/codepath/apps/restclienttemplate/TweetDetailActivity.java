@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -31,9 +30,6 @@ public class TweetDetailActivity extends AppCompatActivity {
     TextView tvName;
     Tweet tweet;
     TwitterClient client;
-
-    int iconLike;
-    int iconRetweet;
 
     public static final String TAG = "TweetDetailActivity";
 
@@ -59,7 +55,14 @@ public class TweetDetailActivity extends AppCompatActivity {
                 .load(tweet.user.profileImageUrl)
                 .circleCrop()
                 .into(ivProfileImage);
+
         tvTime.setText(tweet.getRelativeTimeAgo(tweet.createdAt));
+
+        ibFavorite.setImageResource((tweet.getLiked()) ?
+                R.drawable.ic_vector_heart : R.drawable.ic_vector_heart_stroke);
+
+        ibRetweet.setImageResource((tweet.getRetweeted()) ?
+                R.drawable.ic_vector_retweet : R.drawable.ic_vector_retweet_stroke);
 
         if(!tweet.mediaURL.isEmpty()){
             Glide.with(TweetDetailActivity.this)
@@ -71,43 +74,44 @@ public class TweetDetailActivity extends AppCompatActivity {
         else{
             ivMedia.setVisibility(View.GONE);
         }
+
         ibFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!tweet.getFavorited()){
-                    client.favoriteTweet(tweet.id, new JsonHttpResponseHandler() {
+
+                if(!tweet.getLiked()){
+                    client.likeTweet(tweet.id, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
-                            Log.i(TAG, "tweet favorited");
-                            iconLike = R.drawable.ic_vector_heart;
-                            tweet.setFavorited(true);
+                            Log.i(TAG, "tweet liked");
+                            tweet.setLiked(true);
+                            ibFavorite.setImageResource(R.drawable.ic_vector_heart);
                         }
 
                         @Override
                         public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                            Log.i(TAG,"favorite error");
+                            Log.i(TAG,"like error");
                         }
                     });
 
                 }
                 else{
-                    client.unfavoriteTweet(tweet.id, new JsonHttpResponseHandler() {
+                    client.unlikeTweet(tweet.id, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
-                            Log.i(TAG, "tweet unfavorited");
-                            iconLike = R.drawable.ic_vector_heart_stroke;
-                            tweet.setFavorited(false);
+                            Log.i(TAG, "tweet unliked");
+                            tweet.setLiked(false);
+                            ibFavorite.setImageResource(R.drawable.ic_vector_heart_stroke);
                         }
 
                         @Override
                         public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                            Log.i(TAG, "unfavorite error");
+                            Log.i(TAG, "unlike error");
                         }
                     });
 
                 }
-                ibFavorite.setImageDrawable(
-                        ContextCompat.getDrawable(TweetDetailActivity.this, iconLike));
+
             }
         });
 
@@ -119,8 +123,8 @@ public class TweetDetailActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.i(TAG, "tweet retweeted");
-                            iconRetweet = R.drawable.ic_vector_retweet;
                             tweet.setRetweeted(true);
+                            ibRetweet.setImageResource(R.drawable.ic_vector_retweet);
                         }
 
                         @Override
@@ -135,8 +139,8 @@ public class TweetDetailActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.i(TAG, "tweet unretweeted");
-                            iconRetweet = R.drawable.ic_vector_retweet_stroke;
                             tweet.setRetweeted(false);
+                            ibRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
                         }
 
                         @Override
@@ -147,8 +151,6 @@ public class TweetDetailActivity extends AppCompatActivity {
 
                 }
 
-                ibRetweet.setImageDrawable(
-                        ContextCompat.getDrawable(TweetDetailActivity.this, iconRetweet));
             }
         });
     }

@@ -68,13 +68,13 @@
 
     <Button
         android:id="@+id/btnReply"
-        android:layout_width="wrap_content"
+        android:layout_width="92dp"
         android:layout_height="38dp"
         android:layout_below="@+id/ivMedia"
         android:layout_alignStart="@id/tvBody"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="11dp"
-        android:layout_marginEnd="271dp"
+        android:layout_marginEnd="259dp"
         android:backgroundTint="@color/twitter_blue"
         android:text="@string/reply_btn"
         android:textColor="#FFFFFF" />

@@ -49,7 +49,7 @@ public class TwitterClient extends OAuthBaseClient {
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
 		params.put("since_id",1);
-		params.put("tweet_mode", "extended");
+//		params.put("tweet_mode", "extended");
 		client.get(apiUrl, params, handler);
 	}
 
@@ -67,14 +67,14 @@ public class TwitterClient extends OAuthBaseClient {
 
 	}
 
-	public void favoriteTweet(String id, JsonHttpResponseHandler handler){
+	public void likeTweet(String id, JsonHttpResponseHandler handler){
 		String apiUrl = getApiUrl("favorites/create.json");
 		RequestParams params = new RequestParams();
 		params.put("id", id);
 		client.post(apiUrl, params, "", handler);
 	}
 
-	public void unfavoriteTweet(String id, JsonHttpResponseHandler handler){
+	public void unlikeTweet(String id, JsonHttpResponseHandler handler){
 		String apiUrl = getApiUrl("favorites/destroy.json");
 		RequestParams params = new RequestParams();
 		params.put("id", id);

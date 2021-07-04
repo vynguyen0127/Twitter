@@ -131,7 +131,7 @@ public class TimelineActivity extends AppCompatActivity {
             // Navigate to compose activity
 
             Intent i = new Intent(this, ComposeActivity.class);
-            i.putExtra("Reply",false);
+//            i.putExtra("Reply",false);
             startActivityForResult(i,REQUEST_CODE);
         }
         return super.onOptionsItemSelected(item);
@@ -143,7 +143,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             // Get data from the intent (tweet)
-            Tweet tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra("Tweet"));
+            Tweet tweet = (Tweet) Parcels.unwrap(data.getParcelableExtra("Tweet"));
 
             // Update RV with tweet
 
